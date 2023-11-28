@@ -11,10 +11,12 @@ $ cd streamlabs-producer
 $ go mod download
 $ export STREAMLABS_SOCKET_TOKEN=<your token> # required
 
-$ docker run --rm -d --hostname my-rabbit \
-    --name streamaze-rabbit \
-    -p 15672:15672 -p 5672:5672 \
-    rabbitmq:3-management
+$ docker run --rm -d \
+             --hostname my-rabbit \
+             --name streamaze-rabbit \
+             -p 15672:15672 \
+             -p 5672:5672 \
+             rabbitmq:3-management
 
 $ go run cmd/socketrabbit.go
 ```
