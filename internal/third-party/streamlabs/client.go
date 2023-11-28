@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"socketrabbit/internal/entities"
+	"socketrabbit/internal/entity"
 	"socketrabbit/internal/rabbit"
 
 	gosocketio "github.com/ambelovsky/gosf-socketio"
@@ -100,7 +100,7 @@ func (s *StreamlabsClient) Close() {
 	log.Println("Disconnected from Streamlabs")
 }
 
-func handleEvent(eventType string, dataMap map[string]interface{}) (entities.Event, error) {
+func handleEvent(eventType string, dataMap map[string]interface{}) (entity.Event, error) {
 	switch eventType {
 	case "donation":
 		return handleDonationEvent(dataMap)
@@ -112,7 +112,7 @@ func handleEvent(eventType string, dataMap map[string]interface{}) (entities.Eve
 		return handleSubscriptionEvent(dataMap)
 	default:
 		log.Printf("Unknown event type: %s", eventType)
-		return entities.GenericEvent{EventType: eventType}, fmt.Errorf("Unknown event type: %s", eventType)
+		return entity.GenericEvent{EventType: eventType}, fmt.Errorf("Unknown event type: %s", eventType)
 	}
 }
 

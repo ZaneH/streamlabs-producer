@@ -4,13 +4,13 @@ import (
 	"context"
 	"encoding/json"
 	"log"
-	"socketrabbit/internal/entities"
+	"socketrabbit/internal/entity"
 	"strconv"
 
 	amqp "github.com/rabbitmq/amqp091-go"
 )
 
-func (c *Client) PublishEvent(userId int, e entities.Event) error {
+func (c *Client) PublishEvent(userId int, e entity.Event) error {
 	ctx := context.Background()
 	publishData, err := json.Marshal(e)
 	if err != nil {

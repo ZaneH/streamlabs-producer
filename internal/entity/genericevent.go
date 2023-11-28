@@ -1,4 +1,4 @@
-package entities
+package entity
 
 type GenericEvent struct {
 	EventType string
