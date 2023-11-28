@@ -62,27 +62,30 @@ func (*StreamlabsClient) Setup(rabbitClient *rabbit.Client) error {
 		event, err := handleEvent(eventType, dataMap)
 
 		if err != nil {
-			fmt.Printf("Error handling event: %v\n", err)
-			fmt.Println("Raw Data:", dataMap)
+			log.Printf("Error handling event: %v\n", err)
+			log.Println("Raw Data:", dataMap)
 			return
 		}
 
 		switch e := event.(type) {
 		case *DonationEvent:
-			fmt.Println("Received a DonationEvent:", e)
-			rabbitClient.PublishEvent(1, e)
+			log.Println("Received a DonationEvent:", e)
+			err = rabbitClient.PublishEvent(1, e)
 		case *FollowEvent:
-			fmt.Println("Received a FollowEvent:", e)
-			rabbitClient.PublishEvent(1, e)
+			log.Println("Received a FollowEvent:", e)
+			err = rabbitClient.PublishEvent(1, e)
 		case *SuperchatEvent:
-			fmt.Println("Received a SuperchatEvent:", e)
-			rabbitClient.PublishEvent(1, e)
+			log.Println("Received a SuperchatEvent:", e)
+			err = rabbitClient.PublishEvent(1, e)
 		case *SubscriptionEvent:
-			fmt.Println("Received a SubscriptionEvent:", e)
-			rabbitClient.PublishEvent(1, e)
+			log.Println("Received a SubscriptionEvent:", e)
+			err = rabbitClient.PublishEvent(1, e)
 		default:
-			fmt.Println("Received an unknown event:", e)
-			rabbitClient.PublishEvent(1, e)
+			log.Println("Received an unknown event:", e)
+		}
+
+		if err != nil {
+			log.Printf("Error publishing event: %v\n", err)
 		}
 	})
 
@@ -94,7 +97,7 @@ func (s *StreamlabsClient) Close() {
 		s.socket.Close()
 	}
 
-	fmt.Println("Disconnected from Streamlabs")
+	log.Println("Disconnected from Streamlabs")
 }
 
 func handleEvent(eventType string, dataMap map[string]interface{}) (entities.Event, error) {
