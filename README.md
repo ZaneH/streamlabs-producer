@@ -1,6 +1,7 @@
 # Streamlabs Producer
 
-Connects to Streamlabs API to parse incoming events and sends them to a queue.
+Connects to the [Streamlabs Socket API](https://dev.streamlabs.com/docs/socket-api) to parse incoming events and sends them to a queue.
+
 The events are never consumed in this proof of concept.
 
 ## Usage
@@ -16,7 +17,7 @@ $ docker run --rm -d \
              --name streamaze-rabbit \
              -p 15672:15672 \
              -p 5672:5672 \
-             rabbitmq:3-management
+             rabbitmq:3-management # run a temporary RabbitMQ container
 
 $ go run cmd/socketrabbit.go
 ```
